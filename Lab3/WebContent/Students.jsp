@@ -32,6 +32,12 @@
 	<%
 		out.print(session.getAttribute("statusMsg"));
 	%>
+	
+	<br>
+	<%
+ 		Student stdAllDetails = new Student();
+ 		out.print(stdAllDetails.readStudentDetails());
+	%>
 
 </body>
 </html>

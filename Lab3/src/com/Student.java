@@ -22,7 +22,7 @@ public class Student {
 		try {
 			Connection con = connection();
 			if(con == null) {
-				return "Error while connection to the database";
+				return "Error while connecting to the database";
 			}
 			
 			String query = "insert into students(studentID,studentName,phone,email,address,course)" + " values(?,?,?,?,?,?)";
@@ -44,6 +44,56 @@ public class Student {
 			System.err.print(e.getMessage());
 		}
 		return result;
+	}
+	
+	public String readStudentDetails() {
+		String result = "";
+		
+		try {
+			Connection con = connection();
+			if(con == null) {
+				return "Error while connecting to the database";
+			}
+			
+			result = "<table border = '1'><tr><th>Student ID</th>"
+					+ "<th>Student Name</th><th>Phone</th><th>Email</th>"
+					+ "<th>Address</th><th>Course</th>"
+					+ "<th>Update</th><th>Remove</th></tr>";
+			
+			String query = "Select * From students";
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			
+			while(rs.next()) {
+				String studentID = Integer.toString(rs.getInt("studentID"));
+				String studentName = rs.getString("studentName");
+				String phone = rs.getString("phone");
+				String email = rs.getString("email");
+				String address = rs.getString("address");
+				String course = rs.getString("course");
+				
+				result += "<tr><td>" + studentID + "</td>";
+				result += "<td>" + studentName + "</td>";
+				result += "<td>" + phone + "</td>";
+				result += "<td>" + email + "</td>";
+				result += "<td>" + address + "</td>";
+				result += "<td>" + course + "</td>";
+				
+				result += "<td><input name='btnUpdate' " + " type='button' value='Edit'></td>" 
+						+ "<td><form method='post' action='Items.jsp'>" + "<input name='btnDelete' " + " type='submit' value='Delete'>" 
+						+ "<input name='itemID' type='hidden' " + " value='" + studentID + "'>" + "</form></td></tr>";
+			}
+			
+			con.close();
+			
+			result += "</table>";
+			
+		}catch(Exception e) {
+			result = "Error while reading the items.";
+			System.err.println(e.getMessage());
+		}
+		return result;
+		
 	}
 
 }
