@@ -19,6 +19,7 @@
     		session.setAttribute("deleteStatus", deleteMsg);
     	}
     %>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,9 +44,7 @@
 					+ "Course: <input name='course' type='text'><br>"
 					+ "<input name='btnSubmit' type='submit' value='Save'>" + "</form><br>");
 		}
-	
 	%>
-
 
 	<%
 		if(request.getParameter("studentName") != null ){

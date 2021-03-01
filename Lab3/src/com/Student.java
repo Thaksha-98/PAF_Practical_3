@@ -9,10 +9,12 @@ public class Student {
 			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/student", "root", "");
 			
-			System.out.print("Successfully connected");
+			System.out.print("Successfully Connected");
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+		
 		return con;		
 	}
 	
@@ -22,10 +24,10 @@ public class Student {
 		try {
 			Connection con = connection();
 			if(con == null) {
-				return "Error while connecting to the database";
+				return "Error while connecting to the Database";
 			}
 			
-			String query = "insert into students(studentID,studentName,phone,email,address,course)" + " values(?,?,?,?,?,?)";
+			String query = "INSERT INTO students(studentID,studentName,phone,email,address,course)" + " VALUES(?,?,?,?,?,?)";
 			PreparedStatement preparedSt = con.prepareStatement(query);
 			
 			preparedSt.setInt(1, 0);
@@ -38,11 +40,12 @@ public class Student {
 			preparedSt.execute();
 			con.close();
 			
-			result = "Inserted successfully";
+			result = "Record has been Inserted Successfully";
 		}catch(Exception e) {
-			result = "Error while inserting";
+			result = "Error while Inserting the Student details.";
 			System.err.print(e.getMessage());
 		}
+		
 		return result;
 	}
 	
@@ -52,15 +55,15 @@ public class Student {
 		try {
 			Connection con = connection();
 			if(con == null) {
-				return "Error while connecting to the database";
+				return "Error while connecting to the Database";
 			}
 			
-			result = "<table border = '1'><tr><th>Student ID</th>"
+			result = "<br><table border = '1'><tr><th>Student ID</th>"
 					+ "<th>Student Name</th><th>Phone</th><th>Email</th>"
 					+ "<th>Address</th><th>Course</th>"
 					+ "<th>Update</th><th>Remove</th></tr>";
 			
-			String query = "Select * From students";
+			String query = "SELECT * FROM students";
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			
@@ -92,9 +95,10 @@ public class Student {
 			result += "</table>";
 			
 		}catch(Exception e) {
-			result = "Error while reading the student details.";
+			result = "Error while Reading the Student details.";
 			System.err.println(e.getMessage());
 		}
+		
 		return result;
 	}
 	
@@ -104,31 +108,33 @@ public class Student {
 		try {
 			Connection con = connection();
 			if(con == null) {
-				return "Error while connecting to the database";
+				return "Error while connecting to the Database";
 			}
 			
-			String query = " select * from students where studentID=?";
+			String query = "SELECT * FROM students WHERE studentID=?";
 			PreparedStatement preparedSt = con.prepareStatement(query);
 			preparedSt.setInt(1, Integer.parseInt(studentID));
 			ResultSet rs = preparedSt.executeQuery();
 			
 			while(rs.next()) {
 				result = "<form method='post' action='Students.jsp'>"
-					    + " Student Name: <input name='stName' type='text' value="+rs.getString("studentName")+"><br>"
-						+ "	Phone: <input name='phone' type='text' pattern='[0-9]{10}' value="+rs.getString("phone")+"><br>"
-					    + " Email: <input name='email' type='email' value="+rs.getString("email")+"><br>"
-						+ " Address: <input name='address' type='text' value="+rs.getString("address")+"><br>"
-					    + " Course: <input name='course' type='text' value="+rs.getString("course")+"><br>"
+					    + " Student Name: <input name='stName' type='text'" + " value='" + rs.getString("studentName") + "'><br>"
+						+ "	Phone: <input name='phone' type='text' pattern='[0-9]{10}'" + " value='" + rs.getString("phone") + "'><br>"
+					    + " Email: <input name='email' type='email'" + " value='" + rs.getString("email") + "'><br>"
+						+ " Address: <input name='address' type='text'" + " value='" + rs.getString("address") + "'><br>"
+					    + " Course: <input name='course' type='text'" + " value='" + rs.getString("course") + "'><br>"
 					    + "<form method='post' action='Students.jsp'>"
 					    + "<input name='btnUpdate' type='submit' value='Save Change'>"
 					    + "<input name='stId' type='hidden' " + " value='" + studentID + "'>" + "</form><br>";
 			}
+			
 			con.close();
 
 		}catch(Exception e) {
-			result = "Error while geting the student details.";
+			result = "Error while Geting the Student details.";
 			System.err.println(e.getMessage());
 		}
+		
 		return result;
 	}
 	
@@ -138,7 +144,7 @@ public class Student {
 		try {
 			Connection con = connection();
 			if(con == null) {
-				return "Error while connecting to the database";
+				return "Error while connecting to the Database";
 			}
 			
 			String query = "UPDATE students SET studentName=?, phone=?, email=?, address=?, course=? WHERE studentID=?";
@@ -151,13 +157,12 @@ public class Student {
 			preparedSt.setString(5, course);
 			preparedSt.setInt(6, Integer.parseInt(id));
 
-			
 			preparedSt.execute();
 			con.close();
 			
-			result = "Updated successfully";
+			result = "Record has been Updated Successfully";
 		}catch(Exception e) {
-			result = "Error while updating the student details.";
+			result = "Error while Updating the Student details.";
 			System.err.println(e.getMessage());
 		}
 		
@@ -170,21 +175,22 @@ public class Student {
 		try {
 			Connection con = connection();
 			if(con == null) {
-				return "Error while connecting to the database";
+				return "Error while connecting to the Database";
 			}
 			
-			String query = "delete from students where studentID=?";
+			String query = "DELETE FROM students WHERE studentID=?";
 			PreparedStatement preparedSt = con.prepareStatement(query);
 			preparedSt.setInt(1, Integer.parseInt(studentID));
 			preparedSt.execute();
 			
 			con.close();
 			
-			result = "Record has been deleted successfully";
+			result = "Record has been Deleted Successfully";
 		}catch(Exception e) {
-			result = "Error while deleting the student detail";
+			result = "Error while Deleting the Student detail.";
 			System.err.print(e.getMessage());
 		}
+		
 		return result;
 	}
 }
