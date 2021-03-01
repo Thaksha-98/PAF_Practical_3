@@ -5,8 +5,13 @@
     <%
     	if(request.getParameter("studentName") != null){
     		Student std = new Student();
-    		String msg = std.insertStudentDetails(request.getParameter("studentName"), request.getParameter("phone"), request.getParameter("email"), request.getParameter("address"), request.getParameter("course"));
-    		session.setAttribute("statusMsg", msg);
+    		String insertMsg = std.insertStudentDetails(request.getParameter("studentName"), request.getParameter("phone"), request.getParameter("email"), request.getParameter("address"), request.getParameter("course"));
+    		session.setAttribute("insertStatus", insertMsg);
+    	}
+    	else if(request.getParameter("stId") != null){
+    		Student stdUpdate = new Student();
+    		String updateMsg = stdUpdate.updateStudentDetail(request.getParameter("stId"),request.getParameter("stName"), request.getParameter("phone"), request.getParameter("email"), request.getParameter("address"), request.getParameter("course"));
+    		session.setAttribute("updateStatus", updateMsg);
     	}
     %>
 <!DOCTYPE html>
@@ -33,15 +38,22 @@
 					+ "Course: <input name='course' type='text'><br>"
 					+ "<input name='btnSubmit' type='submit' value='Save'>" + "</form><br>");
 		}
+	
 	%>
 
+
 	<%
-		if(request.getParameter("studentName") != null){
-			out.print(session.getAttribute("statusMsg"));
+		if(request.getParameter("studentName") != null ){
+			out.print(session.getAttribute("insertStatus"));
 		}
+		else if(request.getParameter("stId") != null){
+			out.print(session.getAttribute("updateStatus"));
+		}
+	
 	%>
 	
 	<br>
+	
 	<%
  		Student stdAllDetails = new Student();
  		out.print(stdAllDetails.readStudentDetails());

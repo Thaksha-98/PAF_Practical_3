@@ -131,5 +131,37 @@ public class Student {
 		}
 		return result;
 	}
+	
+	public String updateStudentDetail(String id, String name, String phone, String email, String address, String course) {
+		String result = "";
+		
+		try {
+			Connection con = connection();
+			if(con == null) {
+				return "Error while connecting to the database";
+			}
+			
+			String query = "UPDATE students SET studentName=?, phone=?, email=?, address=?, course=? WHERE studentID=?";
+			PreparedStatement preparedSt = con.prepareStatement(query);
+			
+			preparedSt.setString(1, name);
+			preparedSt.setString(2, phone);
+			preparedSt.setString(3, email);
+			preparedSt.setString(4, address);
+			preparedSt.setString(5, course);
+			preparedSt.setInt(6, Integer.parseInt(id));
+
+			
+			preparedSt.execute();
+			con.close();
+			
+			result = "Updated successfully";
+		}catch(Exception e) {
+			result = "Error while updating the student details.";
+			System.err.println(e.getMessage());
+		}
+		
+		return result;
+	}
 
 }
