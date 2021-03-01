@@ -79,8 +79,11 @@ public class Student {
 				result += "<td>" + address + "</td>";
 				result += "<td>" + course + "</td>";
 				
-				result += "<td><input name='btnUpdate' " + " type='button' value='Edit'></td>" 
-						+ "<td><form method='post' action='Items.jsp'>" + "<input name='btnDelete' " + " type='submit' value='Delete'>" 
+				result += "<td><form method='post' action='Students.jsp'>" 
+						+ "<input name='btnGet' " + " type='submit' value='Edit'></td>"
+						+ "<input name='id' type='hidden' " + " value='" + studentID + "'>" + "</form></td>"
+						+ "<td><form method='post' action='Students.jsp'>"
+						+ "<input name='btnDelete' " + " type='submit' value='Delete'>" 
 						+ "<input name='itemID' type='hidden' " + " value='" + studentID + "'>" + "</form></td></tr>";
 			}
 			
@@ -89,11 +92,44 @@ public class Student {
 			result += "</table>";
 			
 		}catch(Exception e) {
-			result = "Error while reading the items.";
+			result = "Error while reading the student details.";
 			System.err.println(e.getMessage());
 		}
 		return result;
+	}
+	
+	public String getStudentDetail(String studentID) {
+		String result = "";
 		
+		try {
+			Connection con = connection();
+			if(con == null) {
+				return "Error while connecting to the database";
+			}
+			
+			String query = " select * from students where studentID=?";
+			PreparedStatement preparedSt = con.prepareStatement(query);
+			preparedSt.setInt(1, Integer.parseInt(studentID));
+			ResultSet rs = preparedSt.executeQuery();
+			
+			while(rs.next()) {
+				result = "<form method='post' action='Students.jsp'>"
+					    + " Student Name: <input name='stName' type='text' value="+rs.getString("studentName")+"><br>"
+						+ "	Phone: <input name='phone' type='text' pattern='[0-9]{10}' value="+rs.getString("phone")+"><br>"
+					    + " Email: <input name='email' type='email' value="+rs.getString("email")+"><br>"
+						+ " Address: <input name='address' type='text' value="+rs.getString("address")+"><br>"
+					    + " Course: <input name='course' type='text' value="+rs.getString("course")+"><br>"
+					    + "<form method='post' action='Students.jsp'>"
+					    + "<input name='btnUpdate' type='submit' value='Save Change'>"
+					    + "<input name='stId' type='hidden' " + " value='" + studentID + "'>" + "</form><br>";
+			}
+			con.close();
+
+		}catch(Exception e) {
+			result = "Error while geting the student details.";
+			System.err.println(e.getMessage());
+		}
+		return result;
 	}
 
 }
