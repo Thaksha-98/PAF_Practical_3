@@ -84,7 +84,7 @@ public class Student {
 						+ "<input name='id' type='hidden' " + " value='" + studentID + "'>" + "</form></td>"
 						+ "<td><form method='post' action='Students.jsp'>"
 						+ "<input name='btnDelete' " + " type='submit' value='Delete'>" 
-						+ "<input name='itemID' type='hidden' " + " value='" + studentID + "'>" + "</form></td></tr>";
+						+ "<input name='studentID' type='hidden' " + " value='" + studentID + "'>" + "</form></td></tr>";
 			}
 			
 			con.close();
@@ -164,4 +164,27 @@ public class Student {
 		return result;
 	}
 
+	public String deleteStudentDetail(String studentID) {
+		String result = "";
+		
+		try {
+			Connection con = connection();
+			if(con == null) {
+				return "Error while connecting to the database";
+			}
+			
+			String query = "delete from students where studentID=?";
+			PreparedStatement preparedSt = con.prepareStatement(query);
+			preparedSt.setInt(1, Integer.parseInt(studentID));
+			preparedSt.execute();
+			
+			con.close();
+			
+			result = "Record has been deleted successfully";
+		}catch(Exception e) {
+			result = "Error while deleting the student detail";
+			System.err.print(e.getMessage());
+		}
+		return result;
+	}
 }

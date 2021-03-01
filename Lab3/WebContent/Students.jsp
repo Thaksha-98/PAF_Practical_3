@@ -13,6 +13,11 @@
     		String updateMsg = stdUpdate.updateStudentDetail(request.getParameter("stId"),request.getParameter("stName"), request.getParameter("phone"), request.getParameter("email"), request.getParameter("address"), request.getParameter("course"));
     		session.setAttribute("updateStatus", updateMsg);
     	}
+    	else if(request.getParameter("studentID") != null){
+    		Student stdDelete = new Student();
+    		String deleteMsg = stdDelete.deleteStudentDetail(request.getParameter("studentID"));
+    		session.setAttribute("deleteStatus", deleteMsg);
+    	}
     %>
 <!DOCTYPE html>
 <html>
@@ -49,7 +54,9 @@
 		else if(request.getParameter("stId") != null){
 			out.print(session.getAttribute("updateStatus"));
 		}
-	
+		else if(request.getParameter("studentID") != null){
+			out.print(session.getAttribute("deleteStatus"));
+		}
 	%>
 	
 	<br>
