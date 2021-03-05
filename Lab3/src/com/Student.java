@@ -58,15 +58,16 @@ public class Student {
 				return "Error while connecting to the Database";
 			}
 			
-			result = "<br><table border = '1'><tr><th>Student ID</th>"
-					+ "<th>Student Name</th><th>Phone</th><th>Email</th>"
-					+ "<th>Address</th><th>Course</th>"
-					+ "<th>Update</th><th>Remove</th></tr>";
+			result = "<br><table class='table table-striped table-dark'><thead><tr><th scope='col'>Student ID</th>"
+					+ "<th scope='col'>Student Name</th><th scope='col'>Phone</th><th scope='col'>Email</th>"
+					+ "<th scope='col'>Address</th><th scope='col'>Course</th>"
+					+ "<th scope='col'>Update</th><th scope='col'>Remove</th></tr></thead>";
 			
 			String query = "SELECT * FROM students";
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			
+			result += "<tbody>";
 			while(rs.next()) {
 				String studentID = Integer.toString(rs.getInt("studentID"));
 				String studentName = rs.getString("studentName");
@@ -75,7 +76,7 @@ public class Student {
 				String address = rs.getString("address");
 				String course = rs.getString("course");
 				
-				result += "<tr><td>" + studentID + "</td>";
+				result += "<tr><th scope='row'>" + studentID + "</th>";
 				result += "<td>" + studentName + "</td>";
 				result += "<td>" + phone + "</td>";
 				result += "<td>" + email + "</td>";
@@ -83,12 +84,13 @@ public class Student {
 				result += "<td>" + course + "</td>";
 				
 				result += "<td><form method='post' action='Students.jsp'>" 
-						+ "<input name='btnGet' " + " type='submit' value='Edit'></td>"
+						+ "<input name='btnGet' " + " type='submit' value='Edit' class='btn btn-success'></td>"
 						+ "<input name='id' type='hidden' " + " value='" + studentID + "'>" + "</form></td>"
 						+ "<td><form method='post' action='Students.jsp'>"
-						+ "<input name='btnDelete' " + " type='submit' value='Delete'>" 
+						+ "<input name='btnDelete' " + " type='submit' value='Delete' class='btn btn-danger'>" 
 						+ "<input name='studentID' type='hidden' " + " value='" + studentID + "'>" + "</form></td></tr>";
 			}
+			result +="</tbody>";
 			
 			con.close();
 			
@@ -118,13 +120,13 @@ public class Student {
 			
 			while(rs.next()) {
 				result = "<form method='post' action='Students.jsp'>"
-					    + " Student Name: <input name='stName' type='text'" + " value='" + rs.getString("studentName") + "'><br>"
-						+ "	Phone: <input name='phone' type='text' pattern='[0-9]{10}'" + " value='" + rs.getString("phone") + "'><br>"
-					    + " Email: <input name='email' type='email'" + " value='" + rs.getString("email") + "'><br>"
-						+ " Address: <input name='address' type='text'" + " value='" + rs.getString("address") + "'><br>"
-					    + " Course: <input name='course' type='text'" + " value='" + rs.getString("course") + "'><br>"
+					    + " Student Name: <input name='stName' type='text'" + " value='" + rs.getString("studentName") + "' class='form-control'><br>"
+						+ "	Phone: <input name='phone' type='text' pattern='[0-9]{10}'" + " value='" + rs.getString("phone") + "' class='form-control'><br>"
+					    + " Email: <input name='email' type='email'" + " value='" + rs.getString("email") + "' class='form-control'><br>"
+						+ " Address: <input name='address' type='text'" + " value='" + rs.getString("address") + "' class='form-control'><br>"
+					    + " Course: <input name='course' type='text'" + " value='" + rs.getString("course") + "' class='form-control'><br>"
 					    + "<form method='post' action='Students.jsp'>"
-					    + "<input name='btnUpdate' type='submit' value='Save Change'>"
+					    + "<input name='btnUpdate' type='submit' value='Save Change' class='btn btn-info'>"
 					    + "<input name='stId' type='hidden' " + " value='" + studentID + "'>" + "</form><br>";
 			}
 			

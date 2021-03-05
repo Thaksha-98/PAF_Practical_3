@@ -25,8 +25,12 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Student Management</title>
+<link rel="stylesheet" href="Views/bootstrap.min.css">
 </head>
 <body>
+<div class="container">
+	<div class="row">
+ 		<div class="col">
 
 	<h1>Student Management</h1>
 
@@ -37,15 +41,16 @@
 		}
 		else{
 			out.print("<form method = 'post' action = 'Students.jsp'>"
-					+ "Student Name: <input name='studentName' type='text'><br>"
-					+ "Phone: <input name='phone' type='text' pattern='[0-9]{10}'><br>"
-					+ "Email: <input name='email' type='email'><br>"
-					+ "Address: <input name='address' type='text'><br>"
-					+ "Course: <input name='course' type='text'><br>"
-					+ "<input name='btnSubmit' type='submit' value='Save'>" + "</form><br>");
+					+ "Student Name: <input name='studentName' type='text' class='form-control'><br>"
+					+ "Phone: <input name='phone' type='text' pattern='[0-9]{10}' class='form-control'><br>"
+					+ "Email: <input name='email' type='email' class='form-control'><br>"
+					+ "Address: <input name='address' type='text' class='form-control'><br>"
+					+ "Course: <input name='course' type='text' class='form-control'><br>"
+					+ "<input name='btnSubmit' type='submit' value='Save' class='btn btn-primary'>" + "</form><br>");
 		}
 	%>
 
+	<div class="alert alert-success">
 	<%
 		if(request.getParameter("studentName") != null ){
 			out.print(session.getAttribute("insertStatus"));
@@ -57,6 +62,7 @@
 			out.print(session.getAttribute("deleteStatus"));
 		}
 	%>
+	</div>
 	
 	<br>
 	
@@ -64,6 +70,10 @@
  		Student stdAllDetails = new Student();
  		out.print(stdAllDetails.readStudentDetails());
 	%>
+	
+		</div>
+	</div>
+</div>
 
 </body>
 </html>
